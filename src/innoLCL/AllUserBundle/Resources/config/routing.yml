@@ -49,13 +49,6 @@ fos_user_resetting_reset:
     defaults: { _controller: innoLCLAllUserBundle:Resetting:reset }
     requirements:
         _method: GET|POST
-        
-fos_user_resetting_request:
-    path: /resetting/reset/{token}
-    defaults: { _controller: innoLCLAllUserBundle:Resetting:reset }
-    requirements:
-        _method: GET|POST
-
 
 
 # Route de redirection après le check
