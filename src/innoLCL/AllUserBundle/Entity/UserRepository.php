@@ -30,4 +30,49 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
         $qb->setParameter('todayCompare', $todayCompare);
         return $qb->getQuery()->getResult();
     }
+    
+    public function countInscriptions() 
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb
+            ->select('COUNT(u)');
+        
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+    
+    public function countNouvellesInscriptions($dateReport) 
+    {
+        
+        $dateReportStart = $dateReport->format('Y-m-d') . ' 00:00:00';
+        $dateReportEnd = $dateReport->format('Y-m-d') . ' 23:59:59';
+        
+        $qb = $this->createQueryBuilder('u');
+        $qb
+            ->select('COUNT(u)')
+            ->where("u.registeredAt >= :dateReportStart")
+            ->andWhere("u.registeredAt <= :dateReportEnd")
+            ->setParameter('dateReportStart', $dateReportStart)
+            ->setParameter('dateReportEnd', $dateReportEnd);
+        
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+        
+    public function countConnexions($dateReport) 
+    {
+        
+        $dateReportStart = $dateReport->format('Y-m-d') . ' 00:00:00';
+        $dateReportEnd = $dateReport->format('Y-m-d') . ' 23:59:59';
+        
+        $qb = $this->createQueryBuilder('u');
+        $qb
+            ->select('COUNT(u)')
+            ->where("u.lastLogin >= :dateReportStart")
+            ->andWhere("u.lastLogin <= :dateReportEnd")
+            ->setParameter('dateReportStart', $dateReportStart)
+            ->setParameter('dateReportEnd', $dateReportEnd);
+        
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+    
+    
 }

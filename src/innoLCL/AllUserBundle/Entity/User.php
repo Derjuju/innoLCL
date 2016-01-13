@@ -17,7 +17,8 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        $this->nbideaposted = 0;
+        $this->nbideaposted = 0;   
+        $this->dateVote = new \DateTime();
     }
     
   /**
@@ -113,6 +114,16 @@ class User extends BaseUser
      * )
      */
     private $vote;
+    
+    
+    
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="registered_at", type="datetime", nullable=true)
+     */
+    private $registeredAt;
 
 
     /**
@@ -343,5 +354,29 @@ class User extends BaseUser
     public function getRegion()
     {
         return $this->region;
+    }
+        
+    /**
+     * Set registeredAt
+     *
+     * @param \DateTime $registeredAt
+     *
+     * @return User
+     */
+    public function setRegisteredAt($registeredAt)
+    {
+        $this->registeredAt = $registeredAt;
+
+        return $this;
+    }
+
+    /**
+     * Get registeredAt
+     *
+     * @return \DateTime
+     */
+    public function getRegisteredAt()
+    {
+        return $this->registeredAt;
     }
 }

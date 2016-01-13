@@ -90,7 +90,25 @@ class MailToUser {
         return $this->sendMail($subject, $view, $to);
     }
     
-
+    public function sendReportStats($to, $htmlContent){
+        $view = null;
+        $view = $this->templating->render('innoLCLbackBundle:Mailing:reportStats.html.twig', array());
+        if (!$view)
+            return false;
+        
+        $yesterday = new \DateTime();
+        $yesterday->modify('-1 day');
+        
+        // sujet
+        $subject = "[Challenge de l'innovation LCL] Rapport stats : ".$yesterday->format('d m Y'); 
+        
+        // variables dynamiques
+        $view = str_replace('#MESSAGE#',$htmlContent, $view);
+        
+        return $this->sendMail($subject, $view, $to);
+    }
+    
+    
     private function sendMail($subject, $view, $to){
                 
         $view = $this->createOnlineVersion($view);

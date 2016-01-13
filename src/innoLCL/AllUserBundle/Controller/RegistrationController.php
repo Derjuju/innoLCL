@@ -23,6 +23,9 @@ class RegistrationController extends BaseController
         $process = $formHandler->process($confirmationEnabled);
         if ($process) {
             $user = $form->getData();
+            
+            $user->setRegisteredAt(new \DateTime());
+            $this->container->get('fos_user.user_manager')->updateUser($user);
 
             $authUser = false;
             if ($confirmationEnabled) {

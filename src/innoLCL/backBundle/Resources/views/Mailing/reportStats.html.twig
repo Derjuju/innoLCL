@@ -1,0 +1,15 @@
+{% extends "::baseMail.html.twig" %}
+
+{% set titleMail = "Rapport stats" %}
+
+{% block title %} {{ parent() }} - {{ titleMail }}{% endblock %}
+
+
+{% block stylesheets %}                        
+    {{ parent() }}
+    {% include 'innoLCLbackBundle:Mailing:_stylesheet.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+    #MESSAGE#
+{% endblock %}
