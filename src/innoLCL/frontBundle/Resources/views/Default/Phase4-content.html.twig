@@ -6,7 +6,7 @@
       {% else %}
         {% set hover= loop.index - 5 %}
       {% endif %}
-      {% if loop.first and IdeaLaureat.nbVotes> 0 %}
+      {% if loop.first %}
         <div class="columns laureats__block small-12">
             <img src="{{ asset('/images/laureats/big/' ~ IdeaLaureat.slugNomAuthor|lower ~ '.jpg') }}" alt="" class="laureats__photo" />
             <div class="hover_filtre hover_{{ hover }}">

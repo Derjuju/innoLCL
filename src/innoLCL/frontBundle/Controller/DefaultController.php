@@ -150,8 +150,8 @@ class DefaultController extends Controller
 		}
          return $this->render('innoLCLfrontBundle:Default:laureats.html.twig');
     }
-    
-    public function voteAction(Request $request) // phase 4
+
+    public function voteAction(Request $request, \DateTime $dateCurrent = null) // phase 4
     {
         //redirige vers l'accueil si non connecté
         $securityContext = $this->get('security.context');
@@ -174,10 +174,29 @@ class DefaultController extends Controller
         $repoVote = $em->getRepository('innoLCL\StatBundle\Entity\Votes');
         $user = $securityContext->getToken()->getUser();
 
+        $unorderedIdeaLaureats = $repoIdeaLaureat->findBy(array(),
+                                                        array('nomAuthor' => 'ASC'));
+        //Recupère le DateTime initial pour test si non défini la set à la date voulu, (en prod jeudi 14/01/2016 à 9:00)
+        $dateInitialVoteOrder = \DateTime::createFromFormat("Y-m-d H:i:s", "2016-01-14 09:00:00");
+        if(!$dateCurrent) { $dateCurrent = new \DateTime();}
 
-        $twig['IdeaLaureats'] = $repoIdeaLaureat->findBy(array(),
-                                                        array('nbVotes' => 'DESC',
-                                                        'prenomAuthor' => 'ASC'));
+        //DateTime diff renvoi les jours sans prendre en compte les heures. Pour ne pas modifier les datetime pour s'adapter, on calcule içi le nombre de tranche complete de 24h
+        //permet aussi les valeurs negatives, pour afficher correctement la veille et le matin de la release avant 9h00
+        $timeElapsed = $dateCurrent->getTimestamp() - $dateInitialVoteOrder->getTimestamp();
+        $completeDayElapsed = (int) floor($timeElapsed/86400);
+
+        //Calcul du nb de dimanche dans l'intervalle de temps
+        $nbDimanche = intval($completeDayElapsed / 7) + ($dateInitialVoteOrder->format('N') + $completeDayElapsed % 7 >= 7);
+
+        //Suppression des dimanche et ajustement de l'offset à la taille du tableau
+        $offsetSplit = ($completeDayElapsed-$nbDimanche) % count($unorderedIdeaLaureats);
+
+        //Découpe la liste en deux et la reconstruit dans l'ordre voulu
+        $debutOrderedIdeaLaureats = array_slice($unorderedIdeaLaureats, $offsetSplit);
+        $finOrderedIdeaLaureats = array_slice($unorderedIdeaLaureats, 0, $offsetSplit);
+        $orderedIdeaLaureats = array_merge($debutOrderedIdeaLaureats,$finOrderedIdeaLaureats);
+
+        $twig['IdeaLaureats'] = $orderedIdeaLaureats;
 
         $lastVote = $repoVote->findLastVoteByUser($user);
         //Si déjà voté pour cet user et vote date d'aujourd'hui
@@ -190,7 +209,12 @@ class DefaultController extends Controller
 
         return $this->render('innoLCLfrontBundle:Default:phase4.html.twig',$twig);
     }
-    
+
+    public function votetesteurAction(Request $request, $Y,$M,$d,$h,$m,$s) {
+        $dateInitialVoteOrder = \DateTime::createFromFormat("Y-m-d H:i:s", $Y.'-'.$M.'-'.$d.' '.$h.':'.$m.':'.$s);
+        return $this->voteAction($request, $dateInitialVoteOrder);
+    }
+
     public function  resultsAction(Request $request) // phase 5
     {
         //Renvoi si date ne correspond pas à la phase
