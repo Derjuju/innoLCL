@@ -109,6 +109,7 @@ fos_user:
         form:
             type: innoLCL_AllUserBundle_registrationType
     resetting:
+        token_ttl: 8640000
         email:
             template: email/password_resetting.email.twig
             from_email:
