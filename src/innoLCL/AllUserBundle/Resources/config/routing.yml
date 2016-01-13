@@ -49,6 +49,11 @@ fos_user_resetting_reset:
     defaults: { _controller: innoLCLAllUserBundle:Resetting:reset }
     requirements:
         _method: GET|POST
+        
+fos_user_resetting_request:
+    path: /resetting/request_pwd
+    defaults: { _controller: innoLCLAllUserBundle:Resetting:request }
+
 
 
 # Route de redirection après le check
