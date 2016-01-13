@@ -75,6 +75,21 @@ class MailToUser {
         return $this->sendMail($subject, $view, $to);
     }
     
+    public function sendReportResetPassword($to, $htmlContent){
+        $view = null;
+        $view = $this->templating->render('innoLCLbackBundle:Mailing:reportResetPassword.html.twig', array());
+        if (!$view)
+            return false;
+        
+        // sujet
+        $subject = "[Challenge de l'innovation LCL] Demande reset Mot de passe"; 
+        
+        // variables dynamiques
+        $view = str_replace('#MESSAGE#',$htmlContent, $view);
+        
+        return $this->sendMail($subject, $view, $to);
+    }
+    
 
     private function sendMail($subject, $view, $to){
                 
