@@ -76,8 +76,8 @@ class TaskSendStatsReportCommand extends ContainerAwareCommand
                 $htmlReport.= $stat->getVideoname()." : ".$stat->getCounter().'<br>';
             }
             
-            //$to = "support_lcl_challenge@freetouch.fr";
-            $to = "julien@freetouch.fr";
+            $to = "support_lcl_challenge@freetouch.fr";
+            //$to = "julien@freetouch.fr";
             if (!$this->getContainer()->get('mail_to_user')->sendReportStats($to, $htmlReport)) {
                 throw $this->createNotFoundException('Unable to send ReportStats mail.');
             }
