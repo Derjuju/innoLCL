@@ -34,7 +34,7 @@
     <property name="plainPassword">
             <constraint name="Regex">                
                 <option name="message">fos_user.password.complexe</option>
-                <option name="pattern">/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,36})/</option>                
+                <option name="pattern">/((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,36})/</option>                
             </constraint>
     </property>
 </class>
@@ -125,7 +125,7 @@
             </constraint>
             <constraint name="Regex">                
                         <option name="message">fos_user.password.complexe</option>
-                        <option name="pattern">/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,36})/</option>
+                        <option name="pattern">/((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,36})/</option>
 		</constraint>
         </property>
     </class>

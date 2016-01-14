@@ -23,7 +23,7 @@ fos_user:
         blank: Entrez un mot de passe s'il vous plait
         short: "[-Inf,Inf]Le mot de passe est trop court"
         mismatch: Les deux mots de passe ne sont pas identiques
-        complexe: Votre mot de passe doit faire au moins 8 caractères et contenir des majuscules, des minuscules, des chiffres et des caractères spéciaux
+        complexe: Votre mot de passe doit faire au moins 8 caractères et contenir des majuscules, des minuscules et des chiffres
     new_password:
         blank: Entrez un nouveau mot de passe s'il vous plait
         short: "[-Inf,Inf]Le nouveau mot de passe est trop court"
