@@ -30,4 +30,5 @@ parameters:
     phase.phase2: '12/08/2015 00:00:01'
     phase.phase3: '12/17/2015 14:00:01'
     phase.phase4: '01/12/2016 10:00:01'
+    phase.phase4fin: '01/23/2016 00:00:01'
     phase.phase5: '01/26/2016 00:00:01'

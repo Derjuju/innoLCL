@@ -1,0 +1,37 @@
+{% extends "innoLCLfrontBundle::layout.html.twig" %}
+
+{% block body %}
+    <header>              
+        <div class="row">
+            <div class="entete-generale">
+                                <h1 class="title">
+                    {% image '@innoLCLfrontBundle/Resources/assets/images/partipez.png' %}
+                            <img src="{{ asset_url }}"  alt="Participez au" class="" />
+                    {% endimage %}
+                    <br/>
+                
+                
+                challenge de l'innovation LCL</h1>
+                <div class="small-3 columns">
+                    {% image '@innoLCLfrontBundle/Resources/assets/images/logo_LCL.png' %}
+                        <img src="{{ asset_url }}"  alt="Challenge de l'innovation LCL" />
+                    {% endimage %}
+                </div>
+                <div class="small-6 columns">
+                    <div class="row text-center">
+                        {% image '@innoLCLfrontBundle/Resources/assets/images/logo_challenge.png' %}
+                            <img src="{{ asset_url }}"  alt="Challenge de l'innovation LCL" class="entete-generale__logo levitate" />
+                        {% endimage %}
+                    </div>
+                    <div class="row text-center">
+                        <h1 class="title">Bientôt les résultats</h1>
+                    </div>
+                </div>                
+                {% image '@innoLCLfrontBundle/Resources/assets/images/ombre_logo.png' %}
+                    <img src="{{ asset_url }}"  alt="Challenge de l'innovation LCL" class="entete-generale__ombre shadow"/>
+                {% endimage %}               
+            </div> 
+        </div>
+    </header>
+
+{% endblock %}

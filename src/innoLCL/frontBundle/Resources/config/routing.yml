@@ -22,6 +22,10 @@ innolcl_front_landing_laureat:
 innolcl_front_landing_vote:
     path:     /votes
     defaults: { _controller: innoLCLfrontBundle:Default:vote }
+    
+innolcl_front_landing_vote_end:
+    path:     /votes_fin
+    defaults: { _controller: innoLCLfrontBundle:Default:endvote }
 
 #landing test date de la phase 4
 innolcl_front_landing_vote_testeur:

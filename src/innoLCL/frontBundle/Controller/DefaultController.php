@@ -14,37 +14,41 @@ class DefaultController extends Controller
 {
     public function indexAction(Request $request) // /accueil
     {
-      $securityContext = $this->get('security.context');
-  		$currentTime = time();
-  		$phase2Time = strtotime($this->container->getParameter('phase.phase2'));
-  		$phase3Time = strtotime($this->container->getParameter('phase.phase3'));
-  		$phase4Time = strtotime($this->container->getParameter('phase.phase4'));
-  		$phase5Time = strtotime($this->container->getParameter('phase.phase5'));
+        $securityContext = $this->get('security.context');
+        $currentTime = time();
+        $phase2Time = strtotime($this->container->getParameter('phase.phase2'));
+        $phase3Time = strtotime($this->container->getParameter('phase.phase3'));
+        $phase4Time = strtotime($this->container->getParameter('phase.phase4'));
+        $phase4finTime = strtotime($this->container->getParameter('phase.phase4fin'));
+        $phase5Time = strtotime($this->container->getParameter('phase.phase5'));
 
-      if($currentTime < $phase2Time) { //PHASE 1
-  			if($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-  				$route = $this->container->get('router')->generate('innolcl_front_landing_proposal');
-  				return new RedirectResponse($route);
-  			}
-  		}
-  		elseif($currentTime < $phase3Time) { //PHASE 2
-  			$route = $this->container->get('router')->generate('innolcl_front_landing_selection');
-  		}
-  		elseif($currentTime < $phase4Time) { //PHASE 3
-  			$route = $this->container->get('router')->generate('innolcl_front_landing_laureat');
-  		}
-  		elseif($currentTime <= $phase5Time) { //PHASE 4
-  			if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-  				$route = $this->container->get('router')->generate('innolcl_front_landing_vote');
-  			}
-  		}
-  		else { //PHASE 5
-  			$route = $this->container->get('router')->generate('innolcl_front_landing_results');
-  		}
+        if($currentTime < $phase2Time) { //PHASE 1
+            if($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+                $route = $this->container->get('router')->generate('innolcl_front_landing_proposal');
+                return new RedirectResponse($route);
+            }
+        }
+        elseif($currentTime < $phase3Time) { //PHASE 2
+            $route = $this->container->get('router')->generate('innolcl_front_landing_selection');
+        }
+        elseif($currentTime < $phase4Time) { //PHASE 3
+            $route = $this->container->get('router')->generate('innolcl_front_landing_laureat');
+        }
+        elseif($currentTime <= $phase4finTime) { //PHASE 4
+            if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+                $route = $this->container->get('router')->generate('innolcl_front_landing_vote');
+            }
+        }
+        elseif($currentTime <= $phase5Time) { //PHASE 4 FIN
+            $route = $this->container->get('router')->generate('innolcl_front_landing_vote_end');            
+        }
+        else { //PHASE 5
+            $route = $this->container->get('router')->generate('innolcl_front_landing_results');
+        }
 
-      if(isset($route)) {
-			  return new RedirectResponse($route);
-		  }
+        if(isset($route)) {
+            return new RedirectResponse($route);
+        }
 
       return $this->render('innoLCLfrontBundle:Default:index.html.twig');
     }
@@ -163,8 +167,8 @@ class DefaultController extends Controller
         //redirige vers l'accueil si date hors phase
         $currentTime = time();
         $phase4Time = strtotime($this->container->getParameter('phase.phase4'));
-        $phase5Time = strtotime($this->container->getParameter('phase.phase5'));
-        if(!($currentTime > $phase4Time && $currentTime < $phase5Time)) {
+        $phase4finTime = strtotime($this->container->getParameter('phase.phase4fin'));
+        if(!($currentTime > $phase4Time && $currentTime < $phase4finTime)) {
             $route = $this->container->get('router')->generate('innolcl_front_landing_proposal');
             return new RedirectResponse($route);
         }
@@ -215,6 +219,11 @@ class DefaultController extends Controller
         return $this->voteAction($request, $dateInitialVoteOrder);
     }
 
+    
+    public function endvoteAction(Request $request){
+        return $this->render('innoLCLfrontBundle:Default:phase4fin.html.twig');
+    }
+    
     public function  resultsAction(Request $request) // phase 5
     {
         //Renvoi si date ne correspond pas à la phase
